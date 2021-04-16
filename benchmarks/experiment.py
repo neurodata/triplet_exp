@@ -83,5 +83,5 @@ summary['error rxor on xor transformer'] = err_rxor_on_xor
 summary['error rxor on rxor transformer'] = err_rxor_on_rxor
 summary['rep'] = rep_list
 summary['sample'] = sample_list
-summary.to_csv('triplet.csv')
+summary.to_csv('./benchmarks/triplet.csv')
 # %%
