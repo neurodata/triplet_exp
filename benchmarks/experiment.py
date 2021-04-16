@@ -24,7 +24,7 @@ sample_list = []
 
 for sample in sample_size:
     for ii in range(reps):
-        print('doing sample %d rep %d'%sample,ii)
+        print('doing sample %d rep %d'%(sample,ii+1))
         net_xor = Net(in_dim=2, out_dim=2)
         net_rxor = Net(in_dim=2, out_dim=2)
 
