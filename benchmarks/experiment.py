@@ -6,7 +6,7 @@ from triplet.utils import generate_gaussian_parity
 import numpy as np
 import pandas as pd
 # %%
-reps = 100
+reps = 10
 sample_size = np.logspace(
         np.log10(1e2),
         np.log10(1e4),
@@ -24,6 +24,7 @@ sample_list = []
 
 for sample in sample_size:
     for ii in range(reps):
+        print('doing sample %d rep %d'%sample,ii)
         net_xor = Net(in_dim=2, out_dim=2)
         net_rxor = Net(in_dim=2, out_dim=2)
 
@@ -49,7 +50,7 @@ for sample in sample_size:
             train_xor_X, 
             F.one_hot(train_xor_y[:,0].to(torch.long)),
             iteration=1000,
-            verbose=True
+            verbose=False
             )
         train_model(
             net_xor, 
@@ -57,7 +58,7 @@ for sample in sample_size:
             F.one_hot(train_rxor_y[:,0].to(torch.long)), 
             iteration=1000,
             freeze=True, 
-            verbose=True
+            verbose=False
             )
 
         predicted_label = predict(net_xor, test_rxor_X)
@@ -69,7 +70,7 @@ for sample in sample_size:
             net_rxor, 
             train_rxor_X,
             F.one_hot(train_rxor_y[:,0].to(torch.long)), 
-            verbose=True
+            verbose=False
             )
         predicted_label = predict(net_rxor, test_rxor_X)
         err_rxor_on_rxor.append(
