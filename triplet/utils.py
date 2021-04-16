@@ -74,4 +74,4 @@ def generate_gaussian_parity(
         R = _generate_2d_rotation(angle_params)
         X = X @ R
 
-    return X, y
+    return X, y.astype(int)

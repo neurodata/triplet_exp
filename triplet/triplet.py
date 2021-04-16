@@ -6,7 +6,7 @@ class Net(nn.Module):
 
     def __init__(self, in_dim, out_dim, width=10, depth=2,
                  activation=torch.nn.ReLU(), bias=False, 
-                 penultimate=False):
+                 penultimate=True):
         super(Net, self).__init__()
 
         self.layer_number = depth
@@ -18,14 +18,14 @@ class Net(nn.Module):
             module.append(nn.Linear(width, width, bias=bias))      
         
         if penultimate:
-            module.append( activation )
-            module.append( nn.Linear(width, out_dim, bias=bias))
+            module.append(activation)
+            module.append(nn.Linear(width, out_dim, bias=bias))
 
         self.sequential = nn.Sequential(*module)
 
     def freeze_net(self):
-        for layer in range(self.layer_number):
-            self.sequential.parameters.requires_grad = False
+        for layer in range(0,self.layer_number,2):
+            self.sequential[layer].weight.requires_grad = False
 
     def forward(self, x):
         return F.softmax(self.sequential(x))
@@ -35,7 +35,7 @@ def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=F
 
     if freeze:
         model.freeze_net()
-        
+
     optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
     loss_func = torch.nn.BCEWithLogitsLoss()
     
@@ -44,6 +44,7 @@ def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=F
     for step in range(iteration):
         optimizer.zero_grad()
         outputs = model(train_x)
+        train_y = train_y.type_as(outputs)
         loss=loss_func(outputs, train_y)
         trainL = loss.detach().item()
 
@@ -55,3 +56,9 @@ def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=F
         optimizer.step()
     
     return losses
+
+def predict(model, X):
+    return torch.argmax(
+        model(X),
+        1
+    )
