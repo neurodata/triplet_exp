@@ -92,3 +92,35 @@ plt.show()
 # %%
 print(torch.argmax(net(X[0].view(-1,784))))
 # %%
+class Net(nn.Module):
+
+    def __init__(self, in_dim, out_dim, hidden_size=10, n_hidden=2,
+                activation=torch.nn.ReLU(), bias=False, penultimate=False, bn=False):
+        super(Net, self).__init__()
+
+        module = nn.ModuleList()
+        module.append(nn.Linear(in_dim, hidden_size, bias=bias))
+
+        for ll in range(n_hidden):
+            module.append( activation )
+            if bn:
+                module.append( nn.BatchNorm1d( hidden_size ) )
+            module.append( nn.Linear(hidden_size, hidden_size, bias=bias) )      
+        
+        if penultimate:
+            module.append( activation )
+            if bn:
+                module.append( nn.BatchNorm1d( hidden_size ) )
+            module.append( nn.Linear(hidden_size, 2, bias=bias) )
+            hidden_size = 2
+            
+        module.append( activation )
+        if bn:
+            module.append( nn.BatchNorm1d( hidden_size ) )
+        module.append( nn.Linear(hidden_size, out_dim, bias=bias) )
+
+        self.sequential = nn.Sequential(*module)
+
+    def forward(self, x):
+        return self.sequential(x)
+# %%

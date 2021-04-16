@@ -28,7 +28,7 @@ class Net(nn.Module):
             self.sequential[layer].weight.requires_grad = False
 
     def forward(self, x):
-        return F.softmax(self.sequential(x))
+        return F.softmax(self.sequential(x), dim=1)
 
 
 def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=False):
