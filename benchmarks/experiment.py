@@ -8,7 +8,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt 
 # %%
-reps = 1
+reps = 100
 sample_size = np.logspace(
         np.log10(1e2),
         np.log10(1e4),
@@ -57,7 +57,7 @@ for sample in sample_size:
             net_xor, 
             train_rxor_X, 
             F.one_hot(train_rxor_y[:,0].to(torch.long)), 
-            iteration=100,
+            iteration=1000,
             freeze=True, 
             verbose=True
             )
