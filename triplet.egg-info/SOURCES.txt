@@ -1,9 +1,0 @@
-README.md
-setup.py
-triplet/__init__.py
-triplet/utils.py
-triplet.egg-info/PKG-INFO
-triplet.egg-info/SOURCES.txt
-triplet.egg-info/dependency_links.txt
-triplet.egg-info/requires.txt
-triplet.egg-info/top_level.txt
