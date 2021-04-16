@@ -39,7 +39,7 @@ def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=F
     if freeze:
         model.freeze_net()
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     loss_func = torch.nn.BCEWithLogitsLoss()
     
     losses = []
@@ -61,7 +61,8 @@ def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=F
     return losses
 
 def predict(model, X):
-    return torch.argmax(
+    '''return torch.argmax(
         torch.round(torch.sigmoid(model(X))),
         dim=1
-    )
+    )'''
+    return torch.round(torch.sigmoid(model(X)))
