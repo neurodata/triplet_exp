@@ -5,11 +5,12 @@ import torch.nn.functional as F
 class Net(nn.Module):
 
     def __init__(self, in_dim, out_dim, width=10, depth=2,
-                 activation=torch.nn.ReLU(), bias=False, 
-                 penultimate=True):
+                 activation=torch.nn.ReLU(), bias=False):
         super(Net, self).__init__()
 
         self.layer_number = depth
+        self.bias = bias
+
         module = nn.ModuleList()
         module.append(nn.Linear(in_dim, width, bias=bias))
 
@@ -17,9 +18,8 @@ class Net(nn.Module):
             module.append(activation)
             module.append(nn.Linear(width, width, bias=bias))      
         
-        if penultimate:
-            module.append(activation)
-            module.append(nn.Linear(width, out_dim, bias=bias))
+        module.append(activation)
+        module.append(nn.Linear(width, out_dim, bias=bias))
 
         self.sequential = nn.Sequential(*module)
 
@@ -27,8 +27,11 @@ class Net(nn.Module):
         for layer in range(0,self.layer_number,2):
             self.sequential[layer].weight.requires_grad = False
 
+            if self.bias:
+                self.sequential[layer].bias.requires_grad = False
+
     def forward(self, x):
-        return F.softmax(self.sequential(x), dim=1)
+        return self.sequential(x)
 
 
 def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=False):
@@ -59,6 +62,6 @@ def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=F
 
 def predict(model, X):
     return torch.argmax(
-        model(X),
-        1
+        torch.round(torch.sigmoid(model(X))),
+        dim=1
     )
