@@ -5,8 +5,6 @@ from triplet import Net, train_model, predict
 from triplet.utils import generate_gaussian_parity
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt 
 # %%
 reps = 100
 sample_size = np.logspace(
