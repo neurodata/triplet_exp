@@ -31,7 +31,11 @@ class Net(nn.Module):
         return F.softmax(self.sequential(x))
 
 
-def train_model(model, train_x, train_y, iteration=1000, verbose=False):
+def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=False):
+
+    if freeze:
+        model.freeze_net()
+        
     optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
     loss_func = torch.nn.BCEWithLogitsLoss()
     
