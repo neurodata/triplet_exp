@@ -34,6 +34,7 @@ for depth,width in zip(depths,widths):
             
             #model_state_dic = torch.load('saved_model/model_weights_xor_depth_'+str(depth-1)+'_.pth',map_location=torch.device('cpu'))
             #net_xor.load_state_dict(model_state_dic)
+            
             #source task
             train_xor_X, train_xor_y = generate_gaussian_parity(1000,cluster_std=0.25) 
             train_xor_X, train_xor_y = torch.FloatTensor(train_xor_X), (torch.FloatTensor(train_xor_y).unsqueeze(-1))
@@ -55,19 +56,19 @@ for depth,width in zip(depths,widths):
                 net_xor, 
                 train_xor_X, 
                 train_xor_y,
-                iteration=10000,
+                iteration=5000,
                 verbose=False
                 )
             train_model(
                 net_xor, 
                 train_rxor_X, 
                 train_rxor_y, 
-                iteration=10000,
+                iteration=5000,
                 freeze=True, 
                 verbose=False
                 )
 
-            predicted_label = predict(net_xor, test_rxor_X)
+            predicted_label = predict(net_xor, test_rxor_X).view(test_size)
             err_rxor_on_xor.append(
                 1 - np.mean(predicted_label.detach().numpy()==test_rxor_y)
             ) 
@@ -76,10 +77,10 @@ for depth,width in zip(depths,widths):
                 net_rxor, 
                 train_rxor_X,
                 train_rxor_y, 
-                iteration=10000,
-                verbose=True
+                iteration=5000,
+                verbose=False
                 )
-            predicted_label = predict(net_rxor, test_rxor_X)
+            predicted_label = predict(net_rxor, test_rxor_X).view(test_size)
             err_rxor_on_rxor.append(
                 1 - np.mean(predicted_label.detach().numpy()==test_rxor_y)
             )
