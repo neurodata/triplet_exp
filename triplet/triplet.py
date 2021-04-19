@@ -61,8 +61,8 @@ def train_model(model, train_x, train_y, iteration=1000, freeze=False, verbose=F
     return losses
 
 def predict(model, X):
-    '''return torch.argmax(
-        torch.round(torch.sigmoid(model(X))),
+    return torch.argmax(
+        F.softmax(model(X), dim=1),
         dim=1
-    )'''
-    return torch.round(torch.sigmoid(model(X)))
+    )
+    #return torch.round(torch.sigmoid(model(X)))
