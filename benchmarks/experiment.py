@@ -37,7 +37,7 @@ for width, depth in zip(widths,depths):
             #source task
             train_xor_X, train_xor_y = generate_gaussian_parity(xor_train_size,cluster_std=0.25) 
             train_xor_X, train_xor_y = torch.FloatTensor(train_xor_X), (torch.FloatTensor(train_xor_y).unsqueeze(-1))
-            train_xor_X, train_xor_y = generate_gaussian_parity(xor_test_size,cluster_std=0.25)
+            test_xor_X, test_xor_y = generate_gaussian_parity(xor_test_size,cluster_std=0.25)
             test_xor_X, test_xor_y = torch.FloatTensor(test_xor_X), test_xor_y
             #target task
             train_rxor_X, train_rxor_y = generate_gaussian_parity(
