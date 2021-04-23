@@ -51,7 +51,7 @@ class Net(nn.Module):
         module.append(nn.Linear(in_dim, hidden_size, bias=bias))
         self.layer = 1
         self.bias = bias
-        
+
         for ll in range(n_hidden):
             module.append( activation )
             self.layer += 1
@@ -132,10 +132,10 @@ def get_dataset(N=1000, angle_param=0, one_hot=False, cov_scale=1, include_hybri
     """
      Generate the Gaussian XOR dataset and move to gpu
     """
-    use_cuda = torch.cuda.is_available()
+    '''use_cuda = torch.cuda.is_available()
     if use_cuda:
         torch.cuda.set_device(0)
-        torch.set_default_tensor_type(torch.cuda.FloatTensor)
+        torch.set_default_tensor_type(torch.cuda.FloatTensor)'''
         
     if include_hybrid:
         D_x, D_y = generate_gaussian_parity(cov_scale=cov_scale, n=2*N, angle_params=angle_param)
@@ -150,7 +150,7 @@ def get_dataset(N=1000, angle_param=0, one_hot=False, cov_scale=1, include_hybri
             hybrid_x[rand_i], hybrid_y[rand_i] = ghost_x[rand_i], ghost_y[rand_i]
             hybrid_x = torch.FloatTensor(hybrid_x)
             hybrid_y = (torch.FloatTensor(hybrid_y).unsqueeze(-1))
-            hybrid_x, hybrid_y = hybrid_x.cuda(), hybrid_y.cuda()
+            #hybrid_x, hybrid_y = hybrid_x.cuda(), hybrid_y.cuda()
             hybrid_sets.append((hybrid_x, hybrid_y))
     else:
         train_x, train_y = generate_gaussian_parity(cov_scale=cov_scale, n=N, angle_params=angle_param)
@@ -172,9 +172,9 @@ def get_dataset(N=1000, angle_param=0, one_hot=False, cov_scale=1, include_hybri
         test_y = torch.nn.functional.one_hot(test_y[:,0].to(torch.long))
     
     # move to gpu
-    if use_cuda:
+    '''if use_cuda:
         train_x, train_y = train_x.cuda(), train_y.cuda()
-        test_x, test_y = test_x.cuda(), test_y.cuda()
+        test_x, test_y = test_x.cuda(), test_y.cuda()'''
         
     if include_hybrid:
         return train_x, train_y, test_x, test_y, hybrid_sets
