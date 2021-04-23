@@ -7,7 +7,7 @@ reps = 1000
 sample_size = np.logspace(
         np.log10(1e2),
         np.log10(1e4),
-        num=5,
+        num=10,
         endpoint=True,
         dtype=int
         )
@@ -53,12 +53,14 @@ for sample in sample_size:
         train_model(
             net_xor1, 
             train_rxor_X, 
-            train_rxor_y, 
+            train_rxor_y,
+            iteration=100 
             )
         train_model(
             net_xor2, 
             train_rxor_X, 
-            train_rxor_y, 
+            train_rxor_y,
+            iteration=100
             )
 
         predicted_label = net_xor1(test_rxor_X)
