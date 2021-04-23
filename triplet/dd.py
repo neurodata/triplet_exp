@@ -14,18 +14,26 @@ def generate_gaussian_parity(n, cov_scale=1, angle_params=None, k=1, acorn=None)
     Class 1 comprises positive samples drawn from the other Gaussians with means (1,−1) and (−1,1) 
     """
 #     means = [[-1.5, -1.5], [1.5, 1.5], [1.5, -1.5], [-1.5, 1.5]]
+    blob_num = 4
+
+    # get the number of samples in each blob with equal probability
+    samples_per_blob = np.random.multinomial(
+        n, 1 / blob_num * np.ones(blob_num)
+    )
+    print(samples_per_blob)
     means = [[-1, -1], [1, 1], [1, -1], [-1, 1]]
     blob = np.concatenate(
         [
             np.random.multivariate_normal(
-                mean, cov_scale * np.eye(len(mean)), size=int(n / 4)
+                mean, cov_scale * np.eye(len(mean)), size=samples_per_blob[i]
             )
-            for mean in means
+            for i,mean in enumerate(means)
         ]
     )
-
+    
     X = np.zeros_like(blob)
-    Y = np.concatenate([np.ones((int(n / 4))) * int(i < 2) for i in range(len(means))])
+    print(X.shape)
+    Y = np.concatenate([np.ones((samples_per_blob[i])) * int(i < 2) for i in range(len(means))])
     X[:, 0] = blob[:, 0] * np.cos(angle_params * np.pi / 180) + blob[:, 1] * np.sin(
         angle_params * np.pi / 180
     )
