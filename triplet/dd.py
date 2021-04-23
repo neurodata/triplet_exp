@@ -20,7 +20,7 @@ def generate_gaussian_parity(n, cov_scale=1, angle_params=None, k=1, acorn=None)
     samples_per_blob = np.random.multinomial(
         n, 1 / blob_num * np.ones(blob_num)
     )
-    print(samples_per_blob)
+
     means = [[-1, -1], [1, 1], [1, -1], [-1, 1]]
     blob = np.concatenate(
         [
@@ -32,7 +32,6 @@ def generate_gaussian_parity(n, cov_scale=1, angle_params=None, k=1, acorn=None)
     )
     
     X = np.zeros_like(blob)
-    print(X.shape)
     Y = np.concatenate([np.ones((samples_per_blob[i])) * int(i < 2) for i in range(len(means))])
     X[:, 0] = blob[:, 0] * np.cos(angle_params * np.pi / 180) + blob[:, 1] * np.sin(
         angle_params * np.pi / 180
