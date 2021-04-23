@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 #%%
-df = pd.read_csv('triplet.csv')
+df = pd.read_csv('triplet_kalaeb.csv')
 reps = 20
 sample_size = np.logspace(
         np.log10(1e2),
@@ -19,12 +19,12 @@ err_rxor2 = np.zeros((reps,len(sample_size)), dtype=float)
 err_rxor1_ = np.zeros((reps,len(sample_size)), dtype=float)
 err_rxor2_ = np.zeros((reps,len(sample_size)), dtype=float)
 
-df_ = df[df['depth']==4]
+df_ = df[df['depth']==3]
 for ii,sample in enumerate(sample_size):
     err_rxor1[:,ii] = df_['error rxor on xor transformer'][df['sample']==sample]
     err_rxor2[:,ii] = df_['error rxor on rxor transformer'][df['sample']==sample]
 
-df__ = df[df['depth']==20]
+df__ = df[df['depth']==19]
 for ii,sample in enumerate(sample_size):
     err_rxor1_[:,ii] = df__['error rxor on xor transformer'][df['sample']==sample]
     err_rxor2_[:,ii] = df__['error rxor on rxor transformer'][df['sample']==sample]

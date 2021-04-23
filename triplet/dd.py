@@ -43,7 +43,36 @@ def generate_gaussian_parity(n, cov_scale=1, angle_params=None, k=1, acorn=None)
 
 
 ## Network functions
+# Polytope functions
+def get_polytopes(model, train_x, penultimate=False):
+    """
+     Returns the polytopes.
+     Points that has same activations values after fed to the model
+      belong to the same polytope.
+    """
+    polytope_memberships = []
+    last_activations = train_x.cpu().numpy()
+    penultimate_act = None
+    layers = [module for module in model.modules() if type(module) == torch.nn.Linear]
+    
+    for layer_id, layer in enumerate(layers):
+        weights, bias = layer.weight.data.detach().cpu().numpy(), layer.bias.data.detach().cpu().numpy()
+        preactivation = np.matmul(last_activations, weights.T) + bias
+        if layer_id == len(layers) - 1:
+            binary_preactivation = (preactivation > 0.5).astype('int')
+        else:
+            binary_preactivation = (preactivation > 0).astype('int')
+        polytope_memberships.append(binary_preactivation)
+        last_activations = preactivation * binary_preactivation
 
+        if penultimate and layer_id == len(layers) - 1:
+            penultimate_act = last_activations
+    polytope_memberships = [np.tensordot(np.concatenate(polytope_memberships, axis = 1), 2 ** np.arange(0, np.shape(np.concatenate(polytope_memberships, axis = 1))[1]), axes = 1)]
+    
+    if penultimate:
+        return polytope_memberships, penultimate_act
+    return polytope_memberships, last_activations
+    
 # Model 
 class Net(nn.Module):
     """ DeepNet class
