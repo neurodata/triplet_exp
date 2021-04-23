@@ -1,6 +1,7 @@
 #%%
 from triplet.dd import *
 import pandas as pd
+import torch
 # %%
 reps = 20
 sample_size = np.logspace(
@@ -21,7 +22,7 @@ sample_list = []
 depth_list = []
 depths = [3,19]
 widths = [3,20]
-train_xor_X, train_xor_y, test_xor_X, test_xor_y, hybrid_sets = get_dataset(N=1000, cov_scale=1, include_hybrid=True)
+train_xor_X, train_xor_y, test_xor_X, test_xor_y = get_dataset(N=1000, cov_scale=1)
 
 for depth,width in zip(depths,widths):
     for sample in sample_size:
@@ -34,15 +35,10 @@ for depth,width in zip(depths,widths):
             #net_xor.load_state_dict(model_state_dic)
             
             #target task
-            train_rxor_X, train_rxor_y = train_x, train_y, test_x, test_y, hybrid_sets = get_dataset(
+            train_rxor_X, train_rxor_y, test_rxor_X, test_rxor_y = get_dataset(
                 N=sample, 
-                cov_scale=1,
-                angle_param=10
-                )
-            _ = test_rxor_X, test_rxor_y = get_dataset(
-                N=1000, 
-                cov_scale=1,
-                angle_param=10
+                angle_param=10,
+                cov_scale=1
                 )
 
             _ = train_model(
