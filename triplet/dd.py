@@ -72,7 +72,7 @@ def get_polytopes(model, train_x, penultimate=False):
     if penultimate:
         return polytope_memberships, penultimate_act
     return polytope_memberships, last_activations
-    
+
 # Model 
 class Net(nn.Module):
     """ DeepNet class
@@ -125,7 +125,7 @@ class Net(nn.Module):
         return self.sequential(x)
 
 
-def train_model(model, train_x, train_y, multi_label=False, verbose=False):
+def train_model(model, train_x, train_y, iteration=100, multi_label=False, verbose=False):
     """ 
      Train the model given the training data
     """
@@ -134,7 +134,7 @@ def train_model(model, train_x, train_y, multi_label=False, verbose=False):
     
     losses = []
         
-    for step in range(1000):
+    for step in range(iteration):
         optimizer.zero_grad()
         outputs = model(train_x)
         if multi_label:
