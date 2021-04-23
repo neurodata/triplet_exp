@@ -7,12 +7,13 @@ reps = 1000
 sample_size = np.logspace(
         np.log10(1e2),
         np.log10(1e4),
-        num=10,
+        num=5,
         endpoint=True,
         dtype=int
         )
 test_size = 1000
 #%%
+np.random.seed(12345)
 summary = pd.DataFrame()
 err_rxor_on_xor1 = []
 err_rxor_on_xor2 = []
