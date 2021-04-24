@@ -24,9 +24,13 @@ for ii,sample in enumerate(sample_size):
 # %%
 sns.set_context('talk')
 fig, ax = plt.subplots(1,1, figsize=(8,8))
-
+qunatiles = np.nanquantile(err_rxor1,[.25,.75],axis=0)
+ax.fill_between(sample_size, qunatiles[0], qunatiles[1], facecolor='k', alpha=.3)
 ax.plot(sample_size, np.mean(err_rxor1,axis=0), c='k', label='shallow nets (49 polytopes)')
-ax.plot(sample_size, np.mean(err_rxor2,axis=0), c='r', label='deep net')
+
+qunatiles = np.nanquantile(err_rxor2,[.25,.75],axis=0)
+ax.fill_between(sample_size, qunatiles[0], qunatiles[1], facecolor='r', alpha=.3)
+ax.plot(sample_size, np.mean(err_rxor2,axis=0), c='r', label='deep net (363 polytopes)')
 #ax.plot(sample_size, np.mean(err_rxor1_,axis=0), marker='.', c='k', label='error rxor on xor transformer deeper net')
 #ax.plot(sample_size, np.mean(err_rxor2_,axis=0), marker='.', c='r', label='error rxor on rxor transformer deeper net')
     #ax.fill_between(sample_size, mean_kdf-1.96*var_kdf, mean_kdf+1.96*var_kdf, facecolor='r', alpha=0.5)

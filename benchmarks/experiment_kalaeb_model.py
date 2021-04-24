@@ -24,7 +24,7 @@ sample_list = []
 #depths = [3,19]
 #widths = [3,20]
 train_xor_X, train_xor_y, test_xor_X, test_xor_y = get_dataset(N=1000, cov_scale=.25)
-net_xor1 = get_model(n_hidden = 3, hidden_size=3, penultimate=False, bn=False) 
+net_xor1 = get_model(n_hidden = 5, hidden_size = 5, penultimate=False, bn=False) 
 net_xor2 = get_model(n_hidden = 15, hidden_size=15, penultimate=False, bn=False)
 _ = train_model(
                 net_xor1, 
