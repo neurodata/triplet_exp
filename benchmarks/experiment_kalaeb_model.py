@@ -3,11 +3,11 @@ from triplet.dd import *
 import pandas as pd
 import torch
 # %%
-reps = 1000
+reps = 100
 sample_size = np.logspace(
         np.log10(1e2),
         np.log10(1e4),
-        num=10,
+        num=5,
         endpoint=True,
         dtype=int
         )
@@ -54,13 +54,13 @@ for sample in sample_size:
             net_xor1, 
             train_rxor_X, 
             train_rxor_y,
-            iteration=100 
+            iteration=1000
             )
         train_model(
             net_xor2, 
             train_rxor_X, 
             train_rxor_y,
-            iteration=100
+            iteration=1000
             )
 
         predicted_label = net_xor1(test_rxor_X)
@@ -79,5 +79,5 @@ summary['error rxor on xor transformer 1'] = err_rxor_on_xor1
 summary['error rxor on xor transformer 2'] = err_rxor_on_xor2
 summary['rep'] = rep_list
 summary['sample'] = sample_list
-summary.to_csv('triplet_kalaeb_1000.csv')
+summary.to_csv('triplet_kalaeb_100_5.csv')
 # %%
