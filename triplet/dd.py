@@ -125,11 +125,11 @@ class Net(nn.Module):
         return self.sequential(x)
 
 
-def train_model(model, train_x, train_y, iteration=100, multi_label=False, verbose=False):
+def train_model(model, train_x, train_y, lr=0.01, iteration=100, multi_label=False, verbose=False):
     """ 
      Train the model given the training data
     """
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     loss_func = torch.nn.BCEWithLogitsLoss()
     
     losses = []
