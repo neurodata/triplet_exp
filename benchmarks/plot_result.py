@@ -26,7 +26,7 @@ sns.set_context('talk')
 fig, ax = plt.subplots(1,1, figsize=(8,8))
 qunatiles = np.nanquantile(err_rxor1,[.25,.75],axis=0)
 ax.fill_between(sample_size, qunatiles[0], qunatiles[1], facecolor='k', alpha=.3)
-ax.plot(sample_size, np.mean(err_rxor1,axis=0), c='k', label='shallow nets (49 polytopes)')
+ax.plot(sample_size, np.mean(err_rxor1,axis=0), c='k', label='shallow net (49 polytopes)')
 
 qunatiles = np.nanquantile(err_rxor2,[.25,.75],axis=0)
 ax.fill_between(sample_size, qunatiles[0], qunatiles[1], facecolor='r', alpha=.3)
