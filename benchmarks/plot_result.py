@@ -23,7 +23,7 @@ for ii,sample in enumerate(sample_size):
     err_rxor2[:,ii] = df['error rxor on xor transformer 2'][df['sample']==sample]
 # %%
 sns.set_context('talk')
-fig, ax = plt.subplots(1,1, figsize=(8,8))
+fig, ax = plt.subplots(1,1, figsize=(10,8))
 qunatiles = np.nanquantile(err_rxor1,[.25,.75],axis=0)
 ax.fill_between(sample_size, qunatiles[0], qunatiles[1], facecolor='k', alpha=.3)
 ax.plot(sample_size, np.median(err_rxor1,axis=0), c='k', label='shallow net (54 polytopes)')

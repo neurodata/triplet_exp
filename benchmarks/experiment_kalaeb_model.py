@@ -14,8 +14,8 @@ sample_size = np.logspace(
         )
 test_size = 1000
 #%%
-np.random.seed(0)
-torch.manual_seed(0)
+np.random.seed(10)
+torch.manual_seed(10)
 summary = pd.DataFrame()
 err_rxor_on_xor1 = []
 err_rxor_on_xor2 = []
@@ -27,13 +27,13 @@ sample_list = []
 train_xor_X, train_xor_y, test_xor_X, test_xor_y = get_dataset(N=1000, cov_scale=.25)
 net_xor1 = get_model(n_hidden = 4, hidden_size = 4, penultimate=False, bn=False) 
 net_xor2 = get_model(n_hidden = 17, hidden_size=17, penultimate=False, bn=False)
-_ = train_model(
+l1 = train_model(
                 net_xor1, 
                 train_xor_X, 
                 train_xor_y,
                 iteration=5000
                 )
-_ = train_model(
+l2 = train_model(
                 net_xor2, 
                 train_xor_X, 
                 train_xor_y,
@@ -50,7 +50,7 @@ for sample in sample_size:
         #target task
         train_rxor_X, train_rxor_y, test_rxor_X, test_rxor_y = get_dataset(
                 N=sample, 
-                angle_param=10,
+                angle_param=20,
                 cov_scale=.25
                 )
 
