@@ -6,15 +6,16 @@ import copy
 # %%
 reps = 100
 sample_size = np.logspace(
-        np.log10(1e1),
+        np.log10(2),
         np.log10(1e3),
-        num=5,
+        num=8,
         endpoint=True,
         dtype=int
         )
 test_size = 1000
 #%%
-#np.random.seed(12345)
+np.random.seed(0)
+torch.manual_seed(0)
 summary = pd.DataFrame()
 err_rxor_on_xor1 = []
 err_rxor_on_xor2 = []
@@ -24,17 +25,19 @@ sample_list = []
 #depths = [3,19]
 #widths = [3,20]
 train_xor_X, train_xor_y, test_xor_X, test_xor_y = get_dataset(N=1000, cov_scale=.25)
-net_xor1 = get_model(n_hidden = 5, hidden_size = 5, penultimate=False, bn=False) 
-net_xor2 = get_model(n_hidden = 15, hidden_size=15, penultimate=False, bn=False)
+net_xor1 = get_model(n_hidden = 4, hidden_size = 4, penultimate=False, bn=False) 
+net_xor2 = get_model(n_hidden = 17, hidden_size=17, penultimate=False, bn=False)
 _ = train_model(
                 net_xor1, 
                 train_xor_X, 
                 train_xor_y,
+                iteration=5000
                 )
 _ = train_model(
                 net_xor2, 
                 train_xor_X, 
                 train_xor_y,
+                iteration=5000
                 )
 
 #%%
@@ -84,5 +87,5 @@ summary['error rxor on xor transformer 1'] = err_rxor_on_xor1
 summary['error rxor on xor transformer 2'] = err_rxor_on_xor2
 summary['rep'] = rep_list
 summary['sample'] = sample_list
-summary.to_csv('triplet_kalaeb_100_5.csv')
+summary.to_csv('triplet_kalaeb_100_8.csv')
 # %%

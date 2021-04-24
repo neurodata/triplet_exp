@@ -5,12 +5,12 @@ import seaborn as sns
 import pandas as pd
 from triplet.dd import *
 #%%
-df = pd.read_csv('triplet_kalaeb_100_5.csv')
+df = pd.read_csv('triplet_kalaeb_100_8.csv')
 reps = 100
 sample_size = np.logspace(
-        np.log10(1e1),
+        np.log10(2),
         np.log10(1e3),
-        num=5,
+        num=8,
         endpoint=True,
         dtype=int
         )
@@ -26,11 +26,11 @@ sns.set_context('talk')
 fig, ax = plt.subplots(1,1, figsize=(8,8))
 qunatiles = np.nanquantile(err_rxor1,[.25,.75],axis=0)
 ax.fill_between(sample_size, qunatiles[0], qunatiles[1], facecolor='k', alpha=.3)
-ax.plot(sample_size, np.mean(err_rxor1,axis=0), c='k', label='shallow net (49 polytopes)')
+ax.plot(sample_size, np.median(err_rxor1,axis=0), c='k', label='shallow net (54 polytopes)')
 
 qunatiles = np.nanquantile(err_rxor2,[.25,.75],axis=0)
 ax.fill_between(sample_size, qunatiles[0], qunatiles[1], facecolor='r', alpha=.3)
-ax.plot(sample_size, np.mean(err_rxor2,axis=0), c='r', label='deep net (363 polytopes)')
+ax.plot(sample_size, np.median(err_rxor2,axis=0), c='r', label='deep net (263 polytopes)')
 #ax.plot(sample_size, np.mean(err_rxor1_,axis=0), marker='.', c='k', label='error rxor on xor transformer deeper net')
 #ax.plot(sample_size, np.mean(err_rxor2_,axis=0), marker='.', c='r', label='error rxor on rxor transformer deeper net')
     #ax.fill_between(sample_size, mean_kdf-1.96*var_kdf, mean_kdf+1.96*var_kdf, facecolor='r', alpha=0.5)
@@ -47,7 +47,7 @@ right_side.set_visible(False)
 top_side = ax.spines["top"]
 top_side.set_visible(False)
 
-plt.savefig('plots/triplet.pdf')
+plt.savefig('plots/triplet_with_more_sample_size.pdf')
 # %%
 def get_colors(colors, inds):
     c = [colors[i] for i in inds]
