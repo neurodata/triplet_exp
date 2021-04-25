@@ -13,6 +13,7 @@ sample_size = np.logspace(
         dtype=int
         )
 test_size = 1000
+angle = 30
 #%%
 np.random.seed(10)
 torch.manual_seed(10)
@@ -50,7 +51,7 @@ for sample in sample_size:
         #target task
         train_rxor_X, train_rxor_y, test_rxor_X, test_rxor_y = get_dataset(
                 N=sample, 
-                angle_param=45,
+                angle_param=angle,
                 cov_scale=.25
                 )
 
@@ -87,5 +88,5 @@ summary['error rxor on xor transformer 1'] = err_rxor_on_xor1
 summary['error rxor on xor transformer 2'] = err_rxor_on_xor2
 summary['rep'] = rep_list
 summary['sample'] = sample_list
-summary.to_csv('triplet_200_10_45angle.csv')
+summary.to_csv('triplet_'+str(200)+'_'+str(len(sample_size))+'_'+str(angle)+'.csv')
 # %%
