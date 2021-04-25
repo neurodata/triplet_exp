@@ -4,11 +4,11 @@ import pandas as pd
 import torch
 import copy
 # %%
-reps = 100
+reps = 200
 sample_size = np.logspace(
         np.log10(2),
-        np.log10(1e3),
-        num=8,
+        np.log10(1e4),
+        num=10,
         endpoint=True,
         dtype=int
         )
@@ -50,7 +50,7 @@ for sample in sample_size:
         #target task
         train_rxor_X, train_rxor_y, test_rxor_X, test_rxor_y = get_dataset(
                 N=sample, 
-                angle_param=20,
+                angle_param=45,
                 cov_scale=.25
                 )
 
@@ -87,5 +87,5 @@ summary['error rxor on xor transformer 1'] = err_rxor_on_xor1
 summary['error rxor on xor transformer 2'] = err_rxor_on_xor2
 summary['rep'] = rep_list
 summary['sample'] = sample_list
-summary.to_csv('triplet_kalaeb_100_8.csv')
+summary.to_csv('triplet_200_10_45angle.csv')
 # %%
